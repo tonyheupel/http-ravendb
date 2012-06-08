@@ -3,5 +3,5 @@ require.define("http-browserify", function (require, module, exports, __dirname,
 });
 
 require.define("ravendb", function(require, module, exports, __dirname, __filename) {
-  module.exports = require("/Users/tony/Projects/r/node_modules/ravendb/ravendb.js");
+  module.exports = require("/Users/tony/Projects/http-ravendb/node_modules/ravendb/ravendb.js");
 });
