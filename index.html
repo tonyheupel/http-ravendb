@@ -1,10 +1,34 @@
 <html>
- 	<body>
-		<div id="content">Nothing</div>
-		<script src="./ravendb.js"></script>
-		<script>
-		var ravendb = require('ravendb')
-		document.getElementById('content').innerHTML = ravendb()
-		</script>
-	</body>
+  <body>
+    <div id="content">
+      <header>
+        <input id="url" type="text" value="http://localhost/ravendb"></input>
+        <button id="connect">Connect</button>
+      </header>
+      <div id="collections">
+        <ul>
+        </ul>
+      </div>
+    </div>
+    <script src="./jquery.js"></script>
+    <script src="./ravendb.js"></script>
+    <script>
+    window.db = null
+    var connect = function(url, db) {
+      var ravendb = require('ravendb')
+      window.db = ravendb(url, db)
+    }
+    $(function() {
+      $('#connect').click(function() {
+        connect($('#url').val())
+
+        db.getCollections(function(err, results) {
+          for(var i=0; i < results.length; i++) {
+            $('#collections ul').append('<li>' + results[i] + '</li>')
+          }
+        })
+      })
+    })
+    </script>
+  </body>
 </html>
