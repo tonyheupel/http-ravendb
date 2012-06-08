@@ -1,0 +1,10 @@
+<html>
+ 	<body>
+		<div id="content">Nothing</div>
+		<script src="./http-dev-ravendb.js"></script>
+		<script>
+		var ravendb = require('ravendb')
+		document.getElementById('content').innerHTML = ravendb()
+		</script>
+	</body>
+</html>

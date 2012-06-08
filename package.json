@@ -1,0 +1,35 @@
+{
+  "name": "http-ravendb",
+  "version": "0.0.8",
+  "author": "Tony Heupel <tonyheupel@gmail.com>",
+  "description": "A JavaScript library for accessing RavenDB",
+  "contributors": [ 
+    {
+    } 
+  ],
+  "main": "./ravendb",
+  "scripts": {
+    "test": "./node_modules/vows/bin/vows tests/* --spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tchype/http-ravendb.git"
+  },
+  "keywords": [
+    "ravendb"  
+	],
+  "dependencies" : {
+	"ravendb": ">=0.0.8",
+	"http-browserify": ">=0.1.1"
+  },
+  "noAnalyze": true,
+  "devDependencies": {
+
+  },
+  "bundleDependencies": [
+  ],
+  "license": "MIT",
+  "engine": {
+    "node": ">=0.6"
+  }
+}
