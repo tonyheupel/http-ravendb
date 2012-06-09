@@ -1,15 +1,65 @@
 <html>
+  <style type="text/css">
+    html, body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+    }
+    header {
+      height: 35px;
+      padding: 10px 0px 5px 10px;
+    }
+    #content {
+      height: 100%;
+      margin-bottom: -55px;
+      position: relative;
+    }
+    footer {
+      height: 35px;
+      position: relative;
+      padding: 10px 0px 5px 10px;
+      background-color: #888;
+      border-top: solid 3px #333;
+    }
+    ul {
+      list-style: none;
+      display: inline;
+    }
+    ul li, ul article, ul h3, ul div {
+      display: inline;
+    }
+    ul li {
+      margin: 10px;
+    }
+    ul h3 {
+      margin-right: 5px;
+    }
+  </style>
   <body>
     <div id="content">
       <header>
         <input id="url" type="text" value="http://localhost/ravendb"></input>
         <button id="connect">Connect</button>
       </header>
+
       <div id="collections">
         <ul>
         </ul>
       </div>
     </div>
+
+    <footer>
+      <div id="stats">
+        Statistics:&nbsp;&nbsp;
+        <span id="docs"></span> documents &nbsp;&nbsp;
+        <span id="indexes"></span> indexes &nbsp;&nbsp;
+        <span id="stale"></span> stale &nbsp;&nbsp;
+        <span id="errors"></span> errors &nbsp;&nbsp;
+        <span id="triggers"></span> triggers &nbsp;&nbsp;
+        <span id="tasks"></span> tasks &nbsp;&nbsp;
+      </div>
+    </footer>
+
     <script src="./jquery.js"></script>
     <script src="./ravendb.js"></script>
     <script>
@@ -18,15 +68,43 @@
       var ravendb = require('ravendb')
       window.db = ravendb(url, db)
     }
+
+    var countForCollection = function(collection) {
+      db.getDocumentCount(collection, function(err, count) {
+        $('#collections ul').append('<li><article><h3>' + collection + '</h3><div class="count">' + count + '</div></li>')  
+      })
+    }
+
+    var collections = function() {
+      $('#collections ul').html('')
+
+      db.getCollections(function(err, results) {
+       for(var i=0; i < results.length; i++) {
+          countForCollection(results[i])
+        }
+      })
+    }
+
+    var statistics = function(callback) {
+      db.getStats(function(err, stats) {
+        $('#docs').text(stats.CountOfDocuments)
+        $('#indexes').text(stats.CountOfIndexes)
+        $('#stale').text(stats.StaleIndexes.length)
+        $('#errors').text(stats.Errors.length)
+        $('#triggers').text(stats.Triggers.length)
+        $('#tasks').text(stats.ApproximateTaskCount)
+        
+        if (callback) callback()
+      })
+    }
+
+
     $(function() {
       $('#connect').click(function() {
+        document.body.style.cursor = 'wait'
         connect($('#url').val())
-
-        db.getCollections(function(err, results) {
-          for(var i=0; i < results.length; i++) {
-            $('#collections ul').append('<li>' + results[i] + '</li>')
-          }
-        })
+        collections()
+        statistics(function() { document.body.style.cursor = 'default' })
       })
     })
     </script>
