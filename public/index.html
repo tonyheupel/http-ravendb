@@ -1,0 +1,114 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="./stylesheets/studio.css" />
+  </head>
+  
+  <body>
+    <div id="content">
+      <header>
+        <input id="url" type="text" value="http://localhost/ravendb"></input>
+        <button id="connect">Connect</button>
+      </header>
+
+      <div id="collections">
+        <ul>
+        </ul>
+      </div>
+
+      <div id="documents">
+        <ul>
+        </ul>
+      </div>
+    </div>
+
+    <footer>
+      <div id="stats">
+        Statistics:&nbsp;&nbsp;
+        <span id="docs"></span> documents &nbsp;&nbsp;
+        <span id="indexes"></span> indexes &nbsp;&nbsp;
+        <span id="stale"></span> stale &nbsp;&nbsp;
+        <span id="errors"></span> errors &nbsp;&nbsp;
+        <span id="triggers"></span> triggers &nbsp;&nbsp;
+        <span id="tasks"></span> tasks &nbsp;&nbsp;
+      </div>
+    </footer>
+
+    <script src="./javascripts/jquery.js"></script>
+    <script src="./javascripts/ravendb.js"></script>
+    <script>
+    window.db = null
+    var connect = function(url, db) {
+      var ravendb = require('ravendb')
+      window.db = ravendb(url, db)
+    }
+
+    var countForCollection = function(collection) {
+      db.getDocumentCount(collection.name, function(err, count) {
+        collection.count = count
+        $('#collections ul').append('<li data-collection="' + collection.name + '" class="rounded-corners"><div class="rounded-corners collection collection-' + collection.number + '"></div><article><h3>' + collection.name + '</h3><div class="count">' + collection.count + '</div></li>')  
+      })
+    }
+
+    var collections = function() {
+      $('#collections ul').html('')
+
+      db.getCollections(function(err, results) {
+        window.db.collections = {}
+        for(var i=0; i < results.length; i++) {
+          var collection = { name: results[i], number: i+1 }
+          window.db.collections[results[i]] = collection
+          countForCollection(collection)
+        }
+      })
+    }
+
+
+    var documents = function(collection) {
+      var name = collection && collection.name ? collection.name : null
+      $('#documents ul').html('')
+
+      db.getDocsInCollection(collection, function(err, results) {  // still need to do start/count
+        var documents = results
+
+        for(var i=0; i < documents.length; i++) {
+          var doc = { collection: window.db.collections[documents[i]['@metadata']['Raven-Entity-Name']], id: documents[i]['@metadata']['@id'] }
+          $('#documents ul').append('<li title=\'' + JSON.stringify(documents[i]) + '\' class="rounded-corners"><div class="collection collection-' + doc.collection.number + '"></div><article><h3>' + doc.collection.name + '</h3><div class="id">' + doc.id + '</div></li>')
+        }
+      })
+    }
+
+
+    var statistics = function(callback) {
+      db.getStats(function(err, stats) {
+        $('#docs').text(stats.CountOfDocuments)
+        $('#indexes').text(stats.CountOfIndexes)
+        $('#stale').text(stats.StaleIndexes.length)
+        $('#errors').text(stats.Errors.length)
+        $('#triggers').text(stats.Triggers.length)
+        $('#tasks').text(stats.ApproximateTaskCount)
+        
+        if (callback) callback()
+      })
+    }
+
+
+    $(function() {
+      $('#connect').click(function() {
+        document.body.style.cursor = 'wait'
+        connect($('#url').val())
+        collections()
+        documents()
+        statistics(function() { document.body.style.cursor = 'default' })
+      })
+
+      $('#collections li').live('click', function() {
+        $('#collections li').removeClass('selected')
+        $(this).toggleClass('selected')
+        
+        var name = this.dataset.collection
+        documents(name)
+      })
+    })
+    </script>
+  </body>
+</html>

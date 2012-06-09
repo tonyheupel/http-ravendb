@@ -1,0 +1,103 @@
+  html, body {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    font-family: Helvetica, Arial, freesans, clean, sans-serif;
+  }
+  .rounded-corners {
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+  }
+  header {
+    height: 35px;
+    padding: 10px 0px 5px 10px;
+  }
+  #content {
+    height: 100%;
+    margin-bottom: -55px;
+    position: relative;
+  }
+  footer {
+    height: 35px;
+    position: relative;
+    padding: 10px 0px 5px 10px;
+    background-color: #888;
+    border-top: solid 3px #333;
+  }
+  ul {
+    list-style: none;
+    display: inline;
+    width: 100%;
+  }
+  ul li, ul article, ul .count, ul.id {
+    display: inline;
+  }
+  ul li {
+    margin: 10px;
+    float: left;
+    height: 50px;
+    border: solid 1px #333;
+    background-color: #eee;
+  }
+  ul li .collection {
+    height: 40px;
+    width: 10px;
+    float: left;
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  ul li article {
+    float: left;
+    margin-right: 5px;
+  }
+  ul h3 {
+    margin: 5px;
+    margin-bottom: 0px;
+  }
+  ul .count {
+    font-style: italic;
+    font-size: 83%;
+    color: #555;
+    margin-left: 5px;
+  }
+  .collection { background-color: #aaa; }
+  .collection-1 { background-color: green; }
+  .collection-2 { background-color: purple; }
+  .collection-3 { background-color: red; }
+  .collection-4 { background-color: blue;}
+
+  #documents, #collections { 
+    display: block;
+    clear: both;
+  }
+  #collections ul li {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-left: 12px;
+    margin-right: 12px;
+    cursor: pointer;
+  }
+  #collections .selected {
+    border-width: 3px;
+    background-color: #fff;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  #collections ul li .collection {
+    width: 40px;
+  }
+  #documents ul li {
+    width: 150px;
+  }
+  #documents ul h3 {
+    font-size: 100%;
+    font-weight: normal;
+  }
+  #documents ul .id {
+    margin-left: 5px;
+  }
