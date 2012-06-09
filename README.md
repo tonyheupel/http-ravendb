@@ -10,6 +10,8 @@ This requires the use of Cross-Origin Resource Sharing (CORS).  This means that 
 ```
 Access-Control-Allow-Origin: *
 Access-Control-Allow-Origin: http://example.com:8080 http://foo.example.com
+Access-Control-Allow-Headers: Content-Type
+Access-Control-Allow-Methods: PATCH, PUT, POST, GET, OPTIONS, DELETE
 ```
 
 See (http://enable-cors.org/) for more
