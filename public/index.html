@@ -23,6 +23,7 @@
       <div id="edit" style="display: none;">
         <div><input id="editId" type="text" /></div>
         <textarea id="editDocument" rows="24" cols="80"></textarea>
+        <button id="save">Save</button>
       </div>
     </div>
 
@@ -121,6 +122,23 @@
         $('#editId').val(this.id)
         $('#editDocument').val(unescape(this.dataset.document))
         $('#edit').show()
+      })
+
+      $('#save').click(function() {
+        var id = $('#editId').val()
+        console.log($('#editDocument').val())
+        var doc = JSON.parse($('#editDocument').val())
+
+        var collection = doc['@metadata']['Raven-Entity-Name']
+        doc['@metadata']['@id'] = id
+        doc.id = id
+
+        document.body.cursor = 'wait'
+        db.saveDocument(collection, doc, function(err, result) {
+          document.body.cursor = 'default'
+          console.log(e)
+          console.log(result)
+        })
       })
     })
     </script>
