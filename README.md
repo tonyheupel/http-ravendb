@@ -1,5 +1,5 @@
-http-raven
-==========
+http-ravendb
+============
 A client-side JavaScript library for RavenDB access.
 
 
