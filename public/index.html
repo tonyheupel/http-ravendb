@@ -104,6 +104,8 @@
     $(function() {
       $('#refresh').click(function() {
         document.body.style.cursor = 'wait'
+        $('#edit').hide()
+
         connect($('#url').val())
         collections()
         documents()
@@ -111,6 +113,7 @@
       })
 
       $('#collections li').live('click', function() {
+        $('#edit').hide()
         $('#collections li').removeClass('selected')
         $(this).addClass('selected')
 
