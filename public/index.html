@@ -11,11 +11,13 @@
       </header>
 
       <div id="collections">
+        <h2>Collections</h2>
         <ul>
         </ul>
       </div>
 
       <div id="documents">
+        <h2>Documents</h2>
         <ul>
         </ul>
       </div>
@@ -48,14 +50,14 @@
       window.db = ravendb(url, db)
     }
 
-    var countForCollection = function(collection) {
+    var countForCollection = function(collection, callback) {
       db.getDocumentCount(collection.name, function(err, count) {
         collection.count = count
-        $('#collections ul').append('<li data-collection="' + collection.name + '" class="rounded-corners"><div class="rounded-corners collection collection-' + collection.number + '"></div><article><h3>' + collection.name + '</h3><div class="count">' + collection.count + '</div></li>')  
+        $('#collections ul').append('<li data-collection="' + collection.name + '" class="rounded-corners"><div class="rounded-corners collection collection-' + collection.number + '"></div><article><h3>' + collection.name + '</h3><div class="count">' + collection.count + '</div></li>')
       })
     }
 
-    var collections = function() {
+    var collections = function(callback) {
       $('#collections ul').html('')
 
       db.getCollections(function(err, results) {
@@ -65,11 +67,13 @@
           window.db.collections[results[i]] = collection
           countForCollection(collection)
         }
+
+        if (callback) callback()
       })
     }
 
 
-    var documents = function(collection) {
+    var documents = function(collection, callback) {
       var name = collection && collection.name ? collection.name : null
       $('#documents ul').html('')
 
@@ -83,6 +87,8 @@
 
           $('#documents ul').append('<li id="' + id + '" title=\'' + JSON.stringify(doc) + '\' class="rounded-corners" data-document=\'' + escape(JSON.stringify(doc, null, 2)) + '\'><div class="collection collection-' + collection.number + '"></div><article><h3>' + collection.name + '</h3><div class="id">' + id + '</div></li>')
         }
+
+        if (callback) callback()
       })
     }
 
@@ -107,18 +113,24 @@
         $('#edit').hide()
 
         connect($('#url').val())
-        collections()
-        documents()
-        statistics(function() { document.body.style.cursor = 'default' })
+
+        collections(function() { 
+          documents(null, function() { 
+            statistics(function() { 
+              document.body.style.cursor = 'default' 
+            }) 
+          })
+        })
       })
 
       $('#collections li').live('click', function() {
+        document.body.cursor = 'wait'
         $('#edit').hide()
         $('#collections li').removeClass('selected')
         $(this).addClass('selected')
 
         var name = this.dataset.collection
-        documents(name)
+        documents(name, function() { document.body.cursor = 'default' })
       })
 
       $('#documents li').live('click', function() {

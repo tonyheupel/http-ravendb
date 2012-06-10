@@ -69,9 +69,17 @@ ul .count {
 .collection-3 { background-color: red; }
 .collection-4 { background-color: blue;}
 
-#documents, #collections { 
+#documents, #collections {
   display: block;
   clear: both;
+}
+h2 {
+  margin-left: 6px;
+  color: #c33;
+  font-size: 93%;
+}
+#documents h2 {
+  padding-top: 20px;
 }
 #collections ul li {
   margin-top: 2px;
