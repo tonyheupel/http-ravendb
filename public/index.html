@@ -151,7 +151,7 @@
         document.body.cursor = 'wait'
         db.saveDocument(collection, doc, function(err, result) {
           document.body.cursor = 'default'
-          console.log(e)
+          console.log(err)
           console.log(result)
         })
       })

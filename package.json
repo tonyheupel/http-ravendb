@@ -20,7 +20,8 @@
 	],
   "dependencies" : {
 	"ravendb": ">=0.0.8",
-	"http-browserify": ">=0.1.1"
+	"http-browserify": ">=0.1.1",
+	"buffer-browserify": ">=0.0.1"
   },
   "noAnalyze": true,
   "devDependencies": {
