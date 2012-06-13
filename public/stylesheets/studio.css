@@ -113,8 +113,4 @@ h2 {
 #edit {
   clear: both;
   margin: 20px 10px;
-}
-#save {
-  display: none; /* put back to block when save works when browserify gets Buffers (https://github.com/substack/node-browserify/pull/160) */
-}
-  
+}  
