@@ -114,6 +114,19 @@ h2 {
 #documents ul .id {
   margin-left: 5px;
 }
+#documents ul li .delete {
+  background-image: url(../images/delete.png);
+  float: right;
+  height: 16px;
+  width: 16px;
+  background-size: contain;
+  margin-right: 5px;
+  margin-top: 5px;
+  opacity: 0.25;
+}
+#documents ul li .delete:hover {
+  opacity: 1;
+}
 #edit {
   clear: both;
   margin: 20px 10px;

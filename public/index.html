@@ -86,7 +86,7 @@
           var collection = window.db.collections[doc['@metadata']['Raven-Entity-Name']]
           var id = doc['@metadata']['@id']
 
-          $('#documents ul').append('<li id="' + id + '" title=\'' + JSON.stringify(doc) + '\' class="rounded-corners" data-document=\'' + escape(JSON.stringify(doc, null, 2)) + '\'><div class="collection collection-' + collection.number + '"></div><article><h3>' + collection.name + '</h3><div class="id">' + id + '</div></li>')
+          $('#documents ul').append('<li id="' + id + '" title=\'' + JSON.stringify(doc) + '\' class="rounded-corners" data-document=\'' + escape(JSON.stringify(doc, null, 2)) + '\'><div class="collection collection-' + collection.number + '"></div><div class="delete" title="Delete" data-id="' + id + '"></div><article><h3>' + collection.name + '</h3><div class="id">' + id + '</div></article></li>')
         }
 
         if (callback) callback()
@@ -140,6 +140,24 @@
         $('#edit').show()
       })
 
+      $('#documents li .delete').live('click', function() {
+        var that = this
+        var id = that.dataset.id
+        document.body.cursor = 'wait'
+        
+        db.deleteDocument(id, function(err, result) {
+          document.body.cursor = 'default'
+
+          if (err) { 
+            alert('Error deleting ' + id + ': ' + err)
+          } else {
+            $(that).parent('li').remove()
+            alert('Removed document ' + id)
+          }
+          collections()
+        })
+      })
+
       $('#save').click(function() {
         var id = $('#editId').val()
         console.log($('#editDocument').val())
@@ -152,8 +170,12 @@
         document.body.cursor = 'wait'
         db.saveDocument(collection, doc, function(err, result) {
           document.body.cursor = 'default'
-          console.log(err)
-          console.log(result)
+          if (err) { 
+            alert('Error saving document: ' + err) 
+          } else {
+            alert('Saved document.')
+          }
+          collections()
         })
       })
     })

@@ -1,6 +1,6 @@
 {
   "name": "http-ravendb",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "author": "Tony Heupel <tonyheupel@gmail.com>",
   "description": "A JavaScript library for accessing RavenDB",
   "contributors": [ 
@@ -19,7 +19,7 @@
     "ravendb"  
 	],
   "dependencies" : {
-	"ravendb": ">=0.0.11",
+	"ravendb": ">=0.0.13",
 	"http-browserify": ">=0.1.1",
 	"buffer-browserify": ">=0.0.1"
   },
