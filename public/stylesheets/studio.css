@@ -14,6 +14,10 @@ header {
   height: 35px;
   padding: 10px 0px 5px 10px;
 }
+header img {
+  height: 35px;
+  vertical-align: bottom;
+}
 #content {
   height: 100%;
   margin-bottom: -55px;
