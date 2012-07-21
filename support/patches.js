@@ -8,5 +8,5 @@ require.define("buffer-browserify", function (require, module, exports, __dirnam
 var Buffer = require('buffer-browserify').Buffer
 
 require.define("ravendb", function(require, module, exports, __dirname, __filename) {
-  module.exports = require("/Users/tony/Projects/http-ravendb/node_modules/ravendb/ravendb.js");
+  module.exports = require("/Users/tony/Projects/http-ravendb/node_modules/ravendb/lib/ravendb.js");
 });
